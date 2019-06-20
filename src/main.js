@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css/normalize.css'
 import '@/global/init.scss'
 
-
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <h1 class="top-title">待发货订单</h1>
+    <h1 class="top-title">全部订单</h1>
     <div v-for="(item,index) in tableData" :key="index">
       <div class="order">
         <div class="orderId">
           订单编号: {{item._id}}
         </div>
         <div class="status">
-          状态：{{item.status ==1 ?'未支付':item.status ==2 ?'已支付':item.status ==3?'已收货':item.status ==4?'已评价':'未评价'}}
+          状态：{{item.status ==1 ?'未支付':item.status ==2 ?'已支付':item.status ==3?'已收货':item.status ==4?'未评价':'已评价'}}
         </div>
         <div class="contro" v-if="item.status==2">
           操作：<el-button type="primary" round @click="handleSend(item,index)">发货</el-button>
@@ -93,7 +93,7 @@ export default {
     getAllOrder () {
       // var date = new Date();
       // var timer = date.getTime().toString();
-      axios.get('/api/order/status2',{
+      axios.get('/api/order',{
         params: {
               pn: this.currentPage,
               size: this.pagesize
@@ -117,16 +117,21 @@ export default {
           })
           }
         }
+        console.log(this.tableData);
       })
     },
     handleSend (item,index) {
       const id = item._id
       axios.put('/api/order/'+ id,{status:3}).then(res => {
         if (res.data.code === 200) {
+          axios.get('/api/order').then(res => {
+            this.totalpages = res.data.data.length
+          })
+          this.getAllOrder()
           this.$message({
             message: '发货成功',
             type: 'success'
-        })
+          })
         }
       })
       this.getAllOrder()
@@ -136,7 +141,7 @@ export default {
     this.getAllOrder()
   },
   created () {
-    axios.get('/api/order/status2').then(res => {
+    axios.get('/api/order').then(res => {
       this.totalpages = res.data.data.length
     })
   }

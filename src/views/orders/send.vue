@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="top-title">全部订单</h1>
+    <h1 class="top-title">待发货订单</h1>
     <div v-for="(item,index) in tableData" :key="index">
       <div class="order">
         <div class="orderId">
@@ -93,7 +93,7 @@ export default {
     getAllOrder () {
       // var date = new Date();
       // var timer = date.getTime().toString();
-      axios.get('/api/order',{
+      axios.get('/api/order/status2',{
         params: {
               pn: this.currentPage,
               size: this.pagesize
@@ -117,13 +117,13 @@ export default {
           })
           }
         }
-        console.log(this.tableData);
       })
     },
     handleSend (item,index) {
       const id = item._id
       axios.put('/api/order/'+ id,{status:3}).then(res => {
         if (res.data.code === 200) {
+          this.getAllOrder()
           this.$message({
             message: '发货成功',
             type: 'success'
@@ -137,7 +137,7 @@ export default {
     this.getAllOrder()
   },
   created () {
-    axios.get('/api/order').then(res => {
+    axios.get('/api/order/status2').then(res => {
       this.totalpages = res.data.data.length
     })
   }

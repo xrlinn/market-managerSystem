@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="top-title">删除分类</h1>
+    <h1 class="top-title">下架商品</h1>
     <div class="msg">
       <el-table
         :data="tableData"
@@ -8,12 +8,12 @@
         style="width: 100%">
         <el-table-column
           prop="title"
-          label="分类名"
+          label="商品名称"
           min-width="150">
         </el-table-column>
         <el-table-column
-          prop="commodity.length"
-          label="商品数"
+          prop="_id"
+          label="商品编号"
           min-width="120">
         </el-table-column>
         <el-table-column
@@ -23,7 +23,7 @@
           <template slot-scope="scope">
             <div class="btns">
               <el-button type="primary" @click="handleClick(scope.row)" size="small">查看</el-button>
-              <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+              <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">下架</el-button>
             </div>
           </template>
         </el-table-column>
@@ -33,7 +33,7 @@
       class="pagemenu"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :page-sizes="[8]"
+      :page-sizes="[6]"
       :current-page="currentPage"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
@@ -45,48 +45,51 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'chartdelete',
+  name: 'commoditydelete',
   data () {
     return {
       tableData: [],
       currentPage: 1,
       totalpages: 0,
-      pagesize: 8
+      pagesize: 6
     }
   },
   methods: {
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
       this.pagesize = val
-      this.getAllCategory()
+      this.getAllCommodity()
     },
     handleCurrentChange (val) {
       this.currentPage = val
-      this.getAllCategory()
+      this.getAllCommodity()
     },
-    getAllCategory() {
-      axios.get('/api/category',{
+    getAllCommodity () {
+      axios.get('/api/commodity',{
         params: {
           pn: this.currentPage,
           size: this.pagesize
         }
       }).then(res => {
         this.tableData = res.data.data
-        console.log(this.tableData)
       })
     },
-    handleDelete (row) {
+    handleDelete (index,row) {
       const id = row._id
-      axios.delete('/api/category/'+id).then(res => {
+      axios.delete('/api/commodity/'+id).then(res => {
         if (res.data.code === 200) {
           this.$message({
-            message: res.data.msg,
+            message: '该商品下架成功',
             type: 'success'
           })
-          this.getAllCategory()
+          this.getAllCommodity()
+          axios.get('/api/commodity').then(res => {
+            console.log(res.data)
+            this.totalpages = res.data.data.length
+          })
         } else {
           this.$message({
-            message: res.data.msg,
+            message: '下架失败',
             type: 'warning'
           })
         }
@@ -94,19 +97,18 @@ export default {
     }
   },
   mounted () {
-    this.getAllCategory()
+    this.getAllCommodity()
   },
   created () {
-    axios.get('/api/category').then(res => {
+    axios.get('/api/commodity').then(res => {
       console.log(res.data)
       this.totalpages = res.data.data.length
     })
   }
-
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .top-title {
   color: #888;
 }

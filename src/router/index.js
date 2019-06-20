@@ -31,52 +31,76 @@ const router = new Router({
           component: () => import('@/views/homepage')
         },
         {
-          path: '/chartadd',
-          name: 'chartadd',
+          path: '/addCommodity',
+          name: 'addCommodity',
           meta: {
-            title: '轮播图添加'
+            title: '发布商品'
           },
-          component: () => import('@/views/chart/add')
+          component: () => import('@/views/commodity/add')
         },
         {
-          path: '/chartdelete',
-          name: 'chartdelete',
+          path: '/deleteCommodity',
+          name: 'deleteCommodity',
           meta: {
-            title: '轮播图删除'
+            title: '商品删除'
           },
-          component: () => import('@/views/chart/delete')
+          component: () => import('@/views/commodity/delete')
         },
         {
-          path: '/allnews',
-          name: 'allnews',
+          path: '/allOrders',
+          name: 'allOrders',
           meta: {
             title: '全部订单'
           },
-          component: () => import('@/views/news/all')
+          component: () => import('@/views/orders/all')
         },
         {
-          path: '/audit',
-          name: 'audit',
+          path: '/pay',
+          name: 'pay',
           meta: {
             title: '待付款订单'
           },
-          component: () => import('@/views/news/audit')
+          component: () => import('@/views/orders/pay')
         },
         {
-          path: '/audited',
-          name: 'audited',
+          path: '/send',
+          name: 'send',
           meta: {
             title: '待发货订单'
           },
-          component: () => import('@/views/news/audited')
+          component: () => import('@/views/orders/send')
         },
         {
-          path: '/failed',
-          name: 'failed',
+          path: '/receive',
+          name: 'receive',
           meta: {
             title: '待收货订单'
           },
-          component: () => import('@/views/news/failed')
+          component: () => import('@/views/orders/receive')
+        },
+        {
+          path: '/addCategory',
+          name: 'addCategory',
+          meta: {
+            title: '增加分类'
+          },
+          component: () => import('@/views/category/add')
+        },
+        {
+          path: '/deleteCategory',
+          name: 'deleteCategory',
+          meta: {
+            title: '删除分类'
+          },
+          component: () => import('@/views/category/delete')
+        },
+        {
+          path: '/user',
+          name: 'user',
+          meta: {
+            title: '用户管理'
+          },
+          component: () => import('@/views/user')
         }
       ]
     }

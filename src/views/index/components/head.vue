@@ -7,10 +7,10 @@
     </el-breadcrumb>
     <h1 class="title">商家订单后台管理系统</h1>
     <div class="right-msg">
-      <img src="" alt="" class="avatar">
+      <img :src="img" alt="" class="avatar">
       <el-dropdown class="user-msg">
         <span class="el-dropdown-link username">
-          hhhhh<i class="el-icon-arrow-down el-icon--right"></i>
+          admin<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item><router-link :to="{name: 'index'}">返回首页</router-link></el-dropdown-item>
@@ -22,10 +22,12 @@
 </template>
 
 <script>
+import img from '@/assets/avatar.jpg'
 export default {
   name: 'head',
   data () {
     return {
+      img
     }
   },
   watch: {
